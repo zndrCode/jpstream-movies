@@ -18,6 +18,7 @@
             color: #ffffff;
             font-family: "Poppins", sans-serif;
             display: flex;
+            scroll-behavior: smooth; /* Smooth scrolling */
         }
 
         /* Sidebar */
@@ -107,7 +108,7 @@
         .hero {
             margin-top: 30px;
             position: relative;
-            height: 320px;
+            height: 400px; /* Increased height */
             width: 100%;
             background-size: cover;
             background-position: center;
@@ -124,10 +125,10 @@
 
         .hero-content {
             position: absolute;
-            bottom: 30px;
+            bottom: 40px; /* Raised the content higher */
             left: 30px;
             z-index: 2;
-            max-width: 50%;
+            max-width: 60%; /* Increased text width */
             animation: fadeUp 0.9s ease forwards;
             opacity: 0;
         }
@@ -145,23 +146,24 @@
         }
 
         .hero-title {
-            font-size: 28px;
-            font-weight: 600;
-            margin-bottom: 6px;
+            font-size: 38px;      /* Increased size */
+            font-weight: 700;
+            margin-bottom: 10px;
         }
 
         .hero-desc {
-            font-size: 14px;
-            opacity: 0.9;
-            margin-bottom: 16px;
-            line-height: 1.4;
+            font-size: 18px;      /* Increased size */
+            opacity: 0.95;
+            margin-bottom: 22px;
+            line-height: 1.6;
         }
 
         .watch-btn {
-            padding: 12px 22px;
+            padding: 14px 28px;   /* Bigger button */
+            font-size: 16px;
             background: #ffffff;
             color: #000;
-            border-radius: 20px;
+            border-radius: 24px;
             font-weight: 600;
             border: none;
             cursor: pointer;
@@ -236,8 +238,7 @@
     </style>
 </head>
 
-<body>
-
+<body id="top">
 
     <!-- SIDEBAR -->
     <div class="sidebar">
@@ -248,7 +249,9 @@
             <svg viewBox="0 0 24 24" fill="white">
                 <path d="M3 9.5L12 3l9 6.5V21a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1V9.5z" />
             </svg>
-            Home
+            <a href="#top" style="text-decoration: none; color: inherit;">
+                Home
+            </a>
         </div>
 
         <div class="nav-item">
@@ -256,19 +259,12 @@
             <svg viewBox="0 0 24 24" fill="white">
                 <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm3.6 6.4-2.1 5.6-5.6 2.1 2.1-5.6 5.6-2.1z" />
             </svg>
-            Explore
-        </div>
-
-        <div class="nav-item">
-            <!-- Settings Icon -->
-            <svg viewBox="0 0 24 24" fill="white">
-                <path
-                    d="M19.4 12.9c.04-.3.1-.6.1-.9s-.06-.6-.1-.9l2.1-1.6a.5.5 0 0 0 .1-.6l-2-3.4a.5.5 0 0 0-.6-.2l-2.5 1a7 7 0 0 0-1.5-.9l-.4-2.7a.5.5 0 0 0-.5-.4h-4a.5.5 0 0 0-.5.4l-.4 2.7a7 7 0 0 0-1.5.9l-2.5-1a.5.5 0 0 0-.6.2l-2 3.4a.5.5 0 0 0 .1.6l2.1 1.6c-.04.3-.1.6-.1.9s.06.6.1.9L2 14.5a.5.5 0 0 0-.1.6l2 3.4c.14.2.4.3.6.2l2.5-1c.46.36.96.66 1.5.9l.4 2.7c.04.2.25.4.5.4h4c.25 0 .46-.18.5-.4l.4-2.7c.54-.24 1.04-.54 1.5-.9l2.5 1c.2.1.46 0 .6-.2l2-3.4a.5.5 0 0 0-.1-.6l-2.1-1.6zM12 15a3 3 0 1 1 0-6 3 3 0 0 1 0 6z" />
-            </svg>
-            Settings
+            <!-- Explore Link -->
+            <a href="#you-might-like" style="text-decoration: none; color: inherit;">
+                Explore
+            </a>
         </div>
     </div>
-
 
     <!-- MAIN CONTENT -->
     <div class="content">
@@ -295,7 +291,7 @@
         </div>
 
         <!-- MOVIE LIST -->
-        <div class="section-title">You Might Like</div>
+        <div id="you-might-like" class="section-title">You Might Like</div>
 
         <div class="movie-list">
             <div class="movie">
@@ -323,7 +319,7 @@
                 <div class="movie-title">The Good, The Bad and the Ugly</div>
             </div>
 
-	    <div class="movie">
+            <div class="movie">
                 <img src="kill-bill.jpg">
                 <div class="movie-title">Kill Bill</div>
             </div>
@@ -333,7 +329,7 @@
                 <div class="movie-title">Kill Bill Vol. 2</div>
             </div>
 
-	    <div class="movie">
+            <div class="movie">
                 <img src="dragon-2011.jpg">
                 <div class="movie-title">Dragon (2011)</div>
             </div>
@@ -343,9 +339,9 @@
                 <div class="movie-title">Hard Boiled</div>
             </div>
 
-	    <div class="movie">
+            <div class="movie">
                 <img src="the-one.jpg">
-                <div class="movie-title">The Oned</div>
+                <div class="movie-title">The One</div>
             </div>
         </div>
 
