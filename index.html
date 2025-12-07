@@ -1,10 +1,17 @@
 <!DOCTYPE html>
+<html lang="en">
+
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JPStream</title>
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
+
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         * {
@@ -18,7 +25,8 @@
             color: #ffffff;
             font-family: "Poppins", sans-serif;
             display: flex;
-            scroll-behavior: smooth; /* Smooth scrolling */
+            scroll-behavior: smooth;
+            overflow-x: hidden;
         }
 
         /* Sidebar */
@@ -35,12 +43,17 @@
             top: 0;
             z-index: 10;
             border-right: 1px solid rgba(255, 255, 255, 0.05);
+            transition: transform 0.3s ease;
         }
 
         .sidebar h1 {
             font-size: 24px;
             font-weight: 700;
             letter-spacing: 1px;
+            background: linear-gradient(90deg, #ff6b6b, #ffd93d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .nav-item {
@@ -52,17 +65,40 @@
             cursor: pointer;
             transition: 0.25s ease;
             opacity: 0.8;
+            text-decoration: none;
+            color: inherit;
         }
 
-        .nav-item:hover {
-            background-color: #1b1b1b;
+        .nav-item:hover,
+        .nav-item.active {
+            background: linear-gradient(90deg, rgba(255, 107, 107, 0.2), rgba(255, 217, 61, 0.2));
             opacity: 1;
             transform: translateX(5px);
         }
 
-        .nav-item svg {
+        .nav-item i {
             width: 20px;
-            opacity: 0.8;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+            background: #111;
+            border: none;
+            color: white;
+            font-size: 24px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
 
         /* Content */
@@ -70,12 +106,14 @@
             margin-left: 260px;
             padding: 35px;
             width: calc(100% - 260px);
+            transition: margin-left 0.3s ease;
         }
 
         /* Search Bar */
         .search-container {
             position: relative;
             width: 100%;
+            margin-bottom: 30px;
         }
 
         .search-bar {
@@ -88,47 +126,50 @@
             color: white;
             font-size: 15px;
             transition: 0.3s ease;
+            border: 1px solid transparent;
         }
 
         .search-bar:focus {
             background-color: #242424;
-            transform: scale(1.01);
+            border-color: #ff6b6b;
+            box-shadow: 0 0 0 2px rgba(255, 107, 107, 0.2);
         }
 
-        .search-container svg {
+        .search-container i {
             position: absolute;
             top: 50%;
             left: 15px;
             transform: translateY(-50%);
-            width: 18px;
+            font-size: 18px;
             opacity: 0.7;
         }
 
         /* Hero Section */
         .hero {
-            margin-top: 30px;
+            margin-top: 10px;
             position: relative;
-            height: 400px; /* Increased height */
+            height: 400px;
             width: 100%;
             background-size: cover;
             background-position: center;
             border-radius: 22px;
             overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
 
         .hero::after {
             content: "";
             position: absolute;
             inset: 0;
-            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.7));
+            background: linear-gradient(to right, rgba(0, 0, 0, 0.7) 30%, rgba(0, 0, 0, 0.3) 100%);
         }
 
         .hero-content {
             position: absolute;
-            bottom: 40px; /* Raised the content higher */
+            bottom: 40px;
             left: 30px;
             z-index: 2;
-            max-width: 60%; /* Increased text width */
+            max-width: 60%;
             animation: fadeUp 0.9s ease forwards;
             opacity: 0;
         }
@@ -146,33 +187,36 @@
         }
 
         .hero-title {
-            font-size: 38px;      /* Increased size */
+            font-size: 38px;
             font-weight: 700;
             margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
         .hero-desc {
-            font-size: 18px;      /* Increased size */
+            font-size: 18px;
             opacity: 0.95;
             margin-bottom: 22px;
             line-height: 1.6;
+            max-width: 80%;
         }
 
         .watch-btn {
-            padding: 14px 28px;   /* Bigger button */
+            padding: 14px 28px;
             font-size: 16px;
-            background: #ffffff;
+            background: linear-gradient(90deg, #ff6b6b, #ffd93d);
             color: #000;
             border-radius: 24px;
             font-weight: 600;
             border: none;
             cursor: pointer;
             transition: 0.25s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
         }
 
         .watch-btn:hover {
-            transform: scale(1.07);
-            background: #e2e2e2;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
         }
 
         /* "You Might Like" Section */
@@ -180,6 +224,13 @@
             font-size: 26px;
             margin: 35px 0 18px;
             font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            color: #ffd93d;
         }
 
         .movie-list {
@@ -191,10 +242,11 @@
         .movie {
             transition: 0.3s ease;
             cursor: pointer;
+            position: relative;
         }
 
         .movie:hover {
-            transform: translateY(-6px) scale(1.03);
+            transform: translateY(-10px);
         }
 
         .movie img {
@@ -203,150 +255,597 @@
             object-fit: cover;
             border-radius: 16px;
             transition: 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .movie:hover img {
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
         }
 
         .movie-title {
             margin-top: 10px;
             text-align: center;
             font-size: 15px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .movie:hover .movie-title {
+            color: #ffd93d;
+        }
+
+        .movie-rating {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            color: #ffd93d;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* Search Results */
+        .search-results {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .search-results.active {
+            display: block;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: #111;
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .modal.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .modal-title {
+            font-size: 28px;
+            margin-bottom: 15px;
+            color: #ffd93d;
+        }
+
+        .modal-desc {
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        /* Loading Animation */
+        .loader {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .loader.active {
+            display: block;
+        }
+
+        .loader i {
+            font-size: 24px;
+            color: #ffd93d;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #ff6b6b;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .notification.show {
+            transform: translateX(0);
         }
 
         /* Responsive */
         @media (max-width: 900px) {
             .sidebar {
-                width: 180px;
+                width: 200px;
             }
 
             .content {
-                margin-left: 200px;
-                width: calc(100% - 200px);
+                margin-left: 220px;
+                width: calc(100% - 220px);
+            }
+
+            .movie-list {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
             }
         }
 
-        @media (max-width: 700px) {
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: flex;
+            }
+
             .sidebar {
-                position: absolute;
                 transform: translateX(-100%);
-                transition: 0.4s ease;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
             }
 
             .content {
                 margin-left: 0;
                 width: 100%;
+                padding: 35px 20px;
+            }
+
+            .hero-content {
+                max-width: 90%;
+                left: 20px;
+            }
+
+            .hero-title {
+                font-size: 28px;
+            }
+
+            .hero-desc {
+                font-size: 16px;
+                max-width: 100%;
+            }
+
+            .movie-list {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .movie-list {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .hero {
+                height: 300px;
             }
         }
     </style>
 </head>
 
 <body id="top">
+    <!-- Mobile Menu Button -->
+    <button class="mobile-menu-btn" id="mobileMenuBtn">
+        <i class="fas fa-bars"></i>
+    </button>
 
-    <!-- SIDEBAR -->
-    <div class="sidebar">
-        <h1>JPStream</h1>
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        Movie added to watchlist!
+    </div>
 
-        <div class="nav-item">
-            <!-- Home Icon -->
-            <svg viewBox="0 0 24 24" fill="white">
-                <path d="M3 9.5L12 3l9 6.5V21a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1V9.5z" />
-            </svg>
-            <a href="#top" style="text-decoration: none; color: inherit;">
-                Home
-            </a>
-        </div>
-
-        <div class="nav-item">
-            <!-- Explore Icon -->
-            <svg viewBox="0 0 24 24" fill="white">
-                <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm3.6 6.4-2.1 5.6-5.6 2.1 2.1-5.6 5.6-2.1z" />
-            </svg>
-            <!-- Explore Link -->
-            <a href="#you-might-like" style="text-decoration: none; color: inherit;">
-                Explore
-            </a>
+    <!-- Modal -->
+    <div class="modal" id="movieModal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">
+                <i class="fas fa-times"></i>
+            </button>
+            <h2 class="modal-title" id="modalTitle">Movie Title</h2>
+            <p class="modal-desc" id="modalDesc">Movie description will appear here.</p>
+            <button class="watch-btn" id="modalWatchBtn">Watch Now</button>
         </div>
     </div>
 
+    <!-- SIDEBAR -->
+    <div class="sidebar" id="sidebar">
+        <h1>JPStream</h1>
+
+        <a href="#top" class="nav-item active" id="homeBtn">
+            <i class="fas fa-home"></i>
+            Home
+        </a>
+
+        <a href="#you-might-like" class="nav-item" id="exploreBtn">
+            <i class="fas fa-compass"></i>
+            Explore
+        </a>
+
+        <a href="#" class="nav-item" id="watchlistBtn">
+            <i class="fas fa-bookmark"></i>
+            Watchlist
+        </a>
+
+        <a href="#" class="nav-item" id="historyBtn">
+            <i class="fas fa-history"></i>
+            History
+        </a>
+    </div>
+
     <!-- MAIN CONTENT -->
-    <div class="content">
+    <div class="content" id="content">
 
         <!-- Search -->
         <div class="search-container">
-            <svg viewBox="0 0 24 24" fill="white">
-                <path
-                    d="M15.5 14h-.8l-.3-.3a6 6 0 1 0-.7.7l.3.3v.8l5 5 1.5-1.5-5-5zm-6 0A4 4 0 1 1 14 10a4 4 0 0 1-4 4z" />
-            </svg>
-            <input type="text" class="search-bar" placeholder="Search">
+            <i class="fas fa-search"></i>
+            <input type="text" class="search-bar" id="searchBar" placeholder="Search movies...">
+        </div>
+
+        <!-- Loading Animation -->
+        <div class="loader" id="loader">
+            <i class="fas fa-spinner"></i>
         </div>
 
         <!-- HERO -->
-        <div class="hero" style="background-image: url(predator-badland.jpg);">
+        <div class="hero" id="hero" style="background-image: url(predator-badland.jpg);">
             <div class="hero-content">
                 <div class="hero-title">Predator: Badlands</div>
                 <div class="hero-desc">
                     Dek, a young Yautja exiled from his clan, crash-lands on a deadly planet and must prove himself
                     worthy of the hunt.
                 </div>
-                <button class="watch-btn">Watch Now</button>
+                <button class="watch-btn" id="heroWatchBtn">Watch Now</button>
+            </div>
+        </div>
+
+        <!-- Search Results -->
+        <div class="search-results" id="searchResults">
+            <div class="section-title">
+                <i class="fas fa-search"></i>
+                Search Results
+            </div>
+            <div class="movie-list" id="searchResultsList">
+                <!-- Search results will be populated here -->
             </div>
         </div>
 
         <!-- MOVIE LIST -->
-        <div id="you-might-like" class="section-title">You Might Like</div>
+        <div id="you-might-like" class="section-title">
+            <i class="fas fa-fire"></i>
+            You Might Like
+        </div>
 
-        <div class="movie-list">
-            <div class="movie">
-                <img src="Django-Unchained.jpg">
-                <div class="movie-title">Django Unchained</div>
-            </div>
-
-            <div class="movie">
-                <img src="mortal-kombat-ii-poster.avif">
-                <div class="movie-title">Mortal Kombat 2</div>
-            </div>
-
-            <div class="movie">
-                <img src="The_Boys_Poster.webp">
-                <div class="movie-title">The Boys</div>
-            </div>
-
-            <div class="movie">
-                <img src="magnificent-7.webp">
-                <div class="movie-title">Magnificent Seven</div>
-            </div>
-
-            <div class="movie">
-                <img src="the-good-the-bad.webp">
-                <div class="movie-title">The Good, The Bad and the Ugly</div>
-            </div>
-
-            <div class="movie">
-                <img src="kill-bill.jpg">
-                <div class="movie-title">Kill Bill</div>
-            </div>
-
-            <div class="movie">
-                <img src="kill-bill-2.webp">
-                <div class="movie-title">Kill Bill Vol. 2</div>
-            </div>
-
-            <div class="movie">
-                <img src="dragon-2011.jpg">
-                <div class="movie-title">Dragon (2011)</div>
-            </div>
-
-            <div class="movie">
-                <img src="hard-boiled.jpg">
-                <div class="movie-title">Hard Boiled</div>
-            </div>
-
-            <div class="movie">
-                <img src="the-one.jpg">
-                <div class="movie-title">The One</div>
-            </div>
+        <div class="movie-list" id="movieList">
+            <!-- Movie items will be populated by JavaScript -->
         </div>
 
     </div>
 
+    <script>
+        // Movie data
+        const movies = [
+            {
+                title: "Predator: Badlands",
+                image: "predator-badland.jpg",
+                desc: "Dek, a young Yautja exiled from his clan, crash-lands on a deadly planet and must prove himself worthy of the hunt.",
+                rating: 8.5
+            },
+            {
+                title: "Django Unchained",
+                image: "Django-Unchained.jpg",
+                desc: "With the help of a German bounty hunter, a freed slave sets out to rescue his wife from a brutal Mississippi plantation owner.",
+                rating: 8.4
+            },
+            {
+                title: "Mortal Kombat 2",
+                image: "mortal-kombat-ii-poster.avif",
+                desc: "The epic fighting tournament continues with more kombatants, fatalities, and interdimensional threats.",
+                rating: 7.8
+            },
+            {
+                title: "The Boys",
+                image: "The_Boys_Poster.webp",
+                desc: "A group of vigilantes set out to take down corrupt superheroes who abuse their superpowers.",
+                rating: 8.7
+            },
+            {
+                title: "Magnificent Seven",
+                image: "magnificent-7.webp",
+                desc: "Seven gunmen from a variety of backgrounds are brought together by a vengeful young woman to protect her town.",
+                rating: 7.7
+            },
+            {
+                title: "The Good, The Bad and the Ugly",
+                image: "the-good-the-bad.webp",
+                desc: "A bounty hunting scam joins two men in an uneasy alliance against a third in a race to find a fortune in gold.",
+                rating: 8.8
+            },
+            {
+                title: "Kill Bill",
+                image: "kill-bill.jpg",
+                desc: "After awakening from a four-year coma, a former assassin wreaks vengeance on the team of assassins who betrayed her.",
+                rating: 8.2
+            },
+            {
+                title: "Kill Bill Vol. 2",
+                image: "kill-bill-2.webp",
+                desc: "The Bride continues her quest of vengeance against her former boss and lover Bill, the reclusive bouncer Budd, and the treacherous Elle Driver.",
+                rating: 8.0
+            },
+            {
+                title: "Dragon (2011)",
+                image: "dragon-2011.jpg",
+                desc: "A papermaker gets involved with a murder case concerning two criminals leading him to something incredible.",
+                rating: 7.3
+            },
+            {
+                title: "Hard Boiled",
+                image: "hard-boiled.jpg",
+                desc: "A tough-as-nails cop teams up with an undercover agent to shut down a sinister mobster and his crew.",
+                rating: 7.9
+            },
+            {
+                title: "The One",
+                image: "the-one.jpg",
+                desc: "A sheriff's deputy fights an alternate universe version of himself who grows stronger with each alternate self he kills.",
+                rating: 6.7
+            }
+        ];
+
+        // DOM Elements
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const sidebar = document.getElementById('sidebar');
+        const content = document.getElementById('content');
+        const searchBar = document.getElementById('searchBar');
+        const heroWatchBtn = document.getElementById('heroWatchBtn');
+        const movieList = document.getElementById('movieList');
+        const searchResults = document.getElementById('searchResults');
+        const searchResultsList = document.getElementById('searchResultsList');
+        const loader = document.getElementById('loader');
+        const notification = document.getElementById('notification');
+        const movieModal = document.getElementById('movieModal');
+        const modalClose = document.getElementById('modalClose');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalDesc = document.getElementById('modalDesc');
+        const modalWatchBtn = document.getElementById('modalWatchBtn');
+        const navItems = document.querySelectorAll('.nav-item');
+
+        // Initialize movie list
+        function initializeMovieList() {
+            movieList.innerHTML = '';
+            movies.forEach(movie => {
+                const movieElement = document.createElement('div');
+                movieElement.className = 'movie';
+                movieElement.innerHTML = `
+                    <div class="movie-rating">⭐ ${movie.rating}</div>
+                    <img src="${movie.image}" alt="${movie.title}">
+                    <div class="movie-title">${movie.title}</div>
+                `;
+
+                // Add click event to show modal
+                movieElement.addEventListener('click', () => {
+                    showMovieModal(movie);
+                });
+
+                movieList.appendChild(movieElement);
+            });
+        }
+
+        // Show movie modal
+        function showMovieModal(movie) {
+            modalTitle.textContent = movie.title;
+            modalDesc.textContent = movie.desc;
+            modalWatchBtn.onclick = () => {
+                showNotification(`Starting "${movie.title}"...`);
+                movieModal.classList.remove('active');
+            };
+            movieModal.classList.add('active');
+        }
+
+        // Show notification
+        function showNotification(message) {
+            notification.textContent = message;
+            notification.classList.add('show');
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Search functionality
+        function performSearch(query) {
+            if (!query.trim()) {
+                searchResults.classList.remove('active');
+                searchResultsList.innerHTML = '';
+                return;
+            }
+
+            loader.classList.add('active');
+            searchResults.classList.add('active');
+
+            // Simulate search delay
+            setTimeout(() => {
+                const results = movies.filter(movie =>
+                    movie.title.toLowerCase().includes(query.toLowerCase())
+                );
+
+                searchResultsList.innerHTML = '';
+
+                if (results.length === 0) {
+                    searchResultsList.innerHTML = '<p style="color: #888; text-align: center;">No movies found. Try a different search.</p>';
+                } else {
+                    results.forEach(movie => {
+                        const movieElement = document.createElement('div');
+                        movieElement.className = 'movie';
+                        movieElement.innerHTML = `
+                            <div class="movie-rating">⭐ ${movie.rating}</div>
+                            <img src="${movie.image}" alt="${movie.title}">
+                            <div class="movie-title">${movie.title}</div>
+                        `;
+
+                        movieElement.addEventListener('click', () => {
+                            showMovieModal(movie);
+                        });
+
+                        searchResultsList.appendChild(movieElement);
+                    });
+                }
+
+                loader.classList.remove('active');
+            }, 500);
+        }
+
+        // Event Listeners
+        mobileMenuBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+
+        // Close sidebar when clicking on content on mobile
+        content.addEventListener('click', () => {
+            if (window.innerWidth <= 768) {
+                sidebar.classList.remove('active');
+            }
+        });
+
+        // Search bar functionality
+        let searchTimeout;
+        searchBar.addEventListener('input', (e) => {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                performSearch(e.target.value);
+            }, 300);
+        });
+
+        // Clear search when clicking escape
+        searchBar.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                searchBar.value = '';
+                searchResults.classList.remove('active');
+            }
+        });
+
+        // Hero watch button
+        heroWatchBtn.addEventListener('click', () => {
+            showNotification("Starting Predator: Badlands...");
+        });
+
+        // Modal close button
+        modalClose.addEventListener('click', () => {
+            movieModal.classList.remove('active');
+        });
+
+        // Close modal when clicking outside
+        movieModal.addEventListener('click', (e) => {
+            if (e.target === movieModal) {
+                movieModal.classList.remove('active');
+            }
+        });
+
+        // Active navigation state
+        navItems.forEach(item => {
+            item.addEventListener('click', function () {
+                navItems.forEach(nav => nav.classList.remove('active'));
+                this.classList.add('active');
+
+                // Close sidebar on mobile after clicking
+                if (window.innerWidth <= 768) {
+                    sidebar.classList.remove('active');
+                }
+            });
+        });
+
+        // Watchlist button
+        document.getElementById('watchlistBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            showNotification("Watchlist feature coming soon!");
+        });
+
+        // History button
+        document.getElementById('historyBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            showNotification("History feature coming soon!");
+        });
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeMovieList();
+
+            // Add some interactive effects
+            const hero = document.getElementById('hero');
+            hero.addEventListener('mousemove', (e) => {
+                const x = (e.clientX / window.innerWidth) * 20;
+                const y = (e.clientY / window.innerHeight) * 20;
+                hero.style.backgroundPosition = `${x}% ${y}%`;
+            });
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            // Ctrl/Cmd + K for search focus
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                searchBar.focus();
+            }
+
+            // Escape to clear search
+            if (e.key === 'Escape') {
+                searchBar.blur();
+                if (searchBar.value) {
+                    searchBar.value = '';
+                    performSearch('');
+                }
+            }
+        });
+
+        // Responsive adjustments
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                sidebar.classList.remove('active');
+            }
+        });
+    </script>
 </body>
 
 </html>
